@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f131a">
+<title>Имущество</title>
+<style>
+:root{--bg:#0f131a;--s1:#161b25;--s2:#1d2431;--ln:#2a3344;--tx:#e9edf5;--mt:#8e99ad;--ac:#8b8cff;--ok:#4fd1a1;--warn:#f0b35a;--bad:#ef6b73;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{padding:env(safe-area-inset-top) 0 calc(78px + env(safe-area-inset-bottom))}
+header{padding:18px 18px 6px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+header h1{margin:0;font-size:22px;letter-spacing:-.02em}
+header span{color:var(--mt);font-size:12px;text-align:right}
+main{max-width:640px;margin:0 auto;padding:8px 16px 72px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.hero{padding:22px 4px 8px}
+.hero small{color:var(--mt)}
+.hero .big{font-size:42px;font-weight:700;letter-spacing:-.035em;font-variant-numeric:tabular-nums;margin:2px 0 4px}
+.hero .meta{color:var(--mt);font-size:13px}
+.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--s2);margin:16px 0 12px;gap:2px}
+.bar i{display:block;min-width:4px}
+.leg{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:13px}
+.leg div{display:flex;align-items:center;gap:7px;color:var(--mt);cursor:pointer}
+.leg div b{color:var(--tx);margin-left:auto;font-weight:600;font-variant-numeric:tabular-nums}
+.leg u{width:9px;height:9px;border-radius:3px;flex:none}
+h2{font-size:15px;margin:26px 2px 10px;font-weight:650}
+.card{display:flex;gap:12px;align-items:center;background:var(--s1);border:1px solid var(--ln);border-radius:16px;padding:10px;margin-bottom:8px;cursor:pointer}
+.card:active{background:var(--s2)}
+.th{width:52px;height:52px;border-radius:12px;background:color-mix(in srgb,var(--c) 18%,var(--s2));display:grid;place-items:center;font-size:24px;flex:none;overflow:hidden}
+.th img{width:100%;height:100%;object-fit:cover}
+.in{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.in b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.in span{color:var(--mt);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.in em{font-style:normal;font-size:12px;margin-top:2px}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.pr{text-align:right;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr small{display:block;color:var(--mt);font-weight:400;font-size:11px}
+.tools{position:sticky;top:0;background:var(--bg);padding:8px 0 6px;z-index:5}
+.tools input,.tools select,.f input,.f select,.f textarea{width:100%;background:var(--s1);border:1px solid var(--ln);border-radius:12px;padding:11px 13px;outline:none}
+.tools input:focus,.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--ac)}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:9px 0 3px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;background:var(--s1);border:1px solid var(--ln);border-radius:20px;padding:6px 13px;color:var(--mt)}
+.chips button.on{background:var(--ac);border-color:var(--ac);color:#12142a;font-weight:600}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.sum{color:var(--mt);font-size:13px;margin:6px 2px 10px}
+.empty{text-align:center;color:var(--mt);padding:38px 14px}
+.empty p{margin:0 0 14px}
+.btn{background:var(--ac);color:#12142a;border:0;border-radius:12px;padding:12px 18px;font-weight:650}
+.btn.g{background:var(--s2);color:var(--tx);border:1px solid var(--ln)}
+.btn.r{background:transparent;color:var(--bad);border:1px solid color-mix(in srgb,var(--bad) 50%,transparent)}
+.grp{background:var(--s1);border:1px solid var(--ln);border-radius:16px;padding:14px;margin-bottom:12px}
+.grp .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.grp p{margin:0;color:var(--mt);font-size:13px}
+.loc{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--ln);font-size:14px}
+.loc:last-child{border:0}
+nav{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--s1) 94%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--ln);display:flex;justify-content:space-around;padding:6px 8px calc(6px + env(safe-area-inset-bottom));z-index:10}
+nav button{background:none;border:0;color:var(--mt);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;padding:6px 18px;border-radius:12px}
+nav button span{font-size:20px;filter:grayscale(1);opacity:.7}
+nav button.on{color:var(--ac)}
+nav button.on span{filter:none;opacity:1}
+#fab{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom));width:56px;height:56px;border-radius:18px;border:0;background:var(--ac);color:#12142a;font-size:30px;font-weight:300;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:11}
+dialog{margin:auto auto 0;width:100%;max-width:560px;max-height:92vh;border:0;border-radius:22px 22px 0 0;background:var(--s1);color:var(--tx);padding:0;overflow:auto}
+dialog::backdrop{background:rgba(5,8,12,.72)}
+.f{padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.f h3{margin:0 0 14px;font-size:18px}
+.f label{display:block;font-size:12px;color:var(--mt);margin:0 0 10px}
+.f label>*{margin-top:4px;display:block;color:var(--tx);font-size:15px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.f textarea{min-height:64px;resize:vertical}
+.pv{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.pv img{width:64px;height:64px;object-fit:cover;border-radius:12px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.acts .btn{flex:1}
+#tx{width:100%;min-height:160px;background:var(--s2);border:1px solid var(--ln);border-radius:12px;padding:10px;font:12px/1.4 ui-monospace,monospace;resize:vertical;margin-bottom:6px}
+#toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--s2);border:1px solid var(--ln);padding:10px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:30;font-size:14px}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><h1>Имущество</h1><span id="now"></span></header>
+<main id="app"></main>
+<button id="fab" aria-label="Добавить предмет">+</button>
+<nav>
+<button data-tab="home"><span>◐</span>Обзор</button>
+<button data-tab="list"><span>▤</span>Предметы</button>
+<button data-tab="data"><span>⚙</span>Данные</button>
+</nav>
+<dialog id="dlg"><form class="f" id="f" autocomplete="off">
+<h3 id="ft">Новый предмет</h3>
+<label>Название<input name="name" required maxlength="80" placeholder="Например: MacBook Pro 14"></label>
+<div class="g2">
+<label>Категория<select name="cat" id="catsel"></select></label>
+<label>Состояние<select name="cond" id="condsel"></select></label>
+<label>Где лежит<input name="loc" list="locs" maxlength="60" placeholder="Комната, шкаф, склад"></label>
+<label>Серийный номер<input name="serial" maxlength="60"></label>
+<label>Цена за штуку<input name="price" type="number" min="0" step="any" inputmode="decimal"></label>
+<label>Количество<input name="qty" type="number" min="1" step="1" inputmode="numeric" value="1"></label>
+<label>Дата покупки<input name="date" type="date"></label>
+<label>Гарантия до<input name="war" type="date"></label>
+</div>
+<datalist id="locs"></datalist>
+<label>Заметки<textarea name="note" maxlength="500"></textarea></label>
+<div class="pv" id="pv"></div>
+<input type="file" id="ph" accept="image/*" hidden>
+<div class="acts">
+<button type="button" class="btn g" data-act="pick">📷 Фото</button>
+<button type="button" class="btn g" id="dup" data-act="dup">Дублировать</button>
+<button type="button" class="btn r" id="del" data-act="del">Удалить</button>
+</div>
+<div class="acts" style="margin-top:10px">
+<button type="button" class="btn g" data-act="close">Закрыть</button>
+<button type="submit" class="btn">Сохранить</button>
+</div>
+</form></dialog>
+<dialog id="tdlg"><div class="f"><h3>Данные текстом</h3>
+<p style="color:var(--mt);font-size:13px;margin:0 0 10px">Если файл не скачивается, нажмите «Копировать» и вставьте текст в заметки. Чтобы восстановить, вставьте текст сюда и нажмите «Импортировать».</p>
+<textarea id="tx" spellcheck="false"></textarea>
+<div class="acts"><button type="button" class="btn g" data-act="cp">Копировать</button><button type="button" class="btn" data-act="itx">Импортировать</button></div>
+<div class="acts" style="margin-top:8px"><button type="button" class="btn g" data-act="close">Закрыть</button></div></div></dialog>
+<input type="file" id="imp" accept=".json,application/json" hidden>
+<div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s);
+const CATS={tech:['Техника','💻','#7aa2ff'],home:['Мебель и дом','🛋️','#e0a96d'],cloth:['Одежда','👕','#c792ea'],tool:['Инструменты','🔧','#f0b35a'],sport:['Спорт','🏋️','#4fd1a1'],health:['Здоровье','🩺','#ef6b73'],book:['Книги','📚','#6fd3e0'],doc:['Документы','📄','#9aa7bd'],other:['Другое','📦','#8b8cff']};
+const CONDS=['Новое','Отличное','Хорошее','Б/у','Требует ремонта'];
+const KEY='inv_v1';
+let S={items:[],cur:'₽'};
+try{const r=JSON.parse(localStorage.getItem(KEY)||'null');if(r&&Array.isArray(r.items))S=r}catch(e){}
+let tab='home',q='',fc='all',fl='all',sort='new',cur=null,photo='';
+const pad=n=>String(n).padStart(2,'0');
+const fdt=d=>`${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+const fd=s=>s?s.split('-').reverse().join('.'):'—';
+const stamp=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}`;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>Math.round(n).toLocaleString('ru-RU')+' '+S.cur;
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const val=i=>i.price*i.qty;
+const cat=i=>CATS[i.cat]||CATS.other;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true}catch(e){toast('Память заполнена: удалите часть фото или сделайте копию');return false}}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
+function arm(b,fn){if(b.dataset.arm){delete b.dataset.arm;b.textContent=b.dataset.t;fn();return}b.dataset.t=b.textContent;b.dataset.arm=1;b.textContent='Нажмите ещё раз';setTimeout(()=>{if(b.dataset.arm){delete b.dataset.arm;b.textContent=b.dataset.t}},2500)}
+
+function wb(i){if(!i.war)return'';const d=Math.ceil((new Date(i.war+'T23:59:59')-new Date())/864e5);
+ if(d<0)return`<em class="bad">Гарантия истекла ${fd(i.war)}</em>`;
+ if(d<=60)return`<em class="warn">Гарантия: ещё ${d} дн.</em>`;
+ return`<em class="ok">Гарантия до ${fd(i.war)}</em>`}
+const card=i=>{const c=cat(i);return`<div class="card" data-id="${i.id}"><div class="th" style="--c:${c[2]}">${i.photo?`<img src="${i.photo}" alt="">`:c[1]}</div><div class="in"><b>${esc(i.name)}</b><span>${esc(i.loc||'Место не указано')}</span>${wb(i)}</div><div class="pr">${money(val(i))}${i.qty>1?`<small>${i.qty} шт × ${money(i.price)}</small>`:''}</div></div>`};
+
+const emptyBox=`<div class="empty"><p>Здесь пока пусто. Добавьте первый предмет или загрузите пример, чтобы посмотреть, как всё выглядит.</p><button class="btn" data-act="new">Добавить предмет</button> <button class="btn g" data-act="demo">Загрузить пример</button></div>`;
+
+function home(){
+ const it=S.items;if(!it.length)return emptyBox;
+ const tot=it.reduce((a,i)=>a+val(i),0),cnt=it.reduce((a,i)=>a+i.qty,0),last=Math.max(...it.map(i=>i.ts||0));
+ const by={};it.forEach(i=>by[i.cat]=(by[i.cat]||0)+val(i));
+ const ks=Object.keys(by).sort((a,b)=>by[b]-by[a]);
+ const soon=it.filter(i=>i.war&&Math.ceil((new Date(i.war+'T23:59:59')-new Date())/864e5)<=60).sort((a,b)=>a.war.localeCompare(b.war));
+ const rec=[...it].sort((a,b)=>b.ts-a.ts).slice(0,4);
+ return`<div class="hero"><small>Общая стоимость</small><div class="big">${money(tot)}</div><div class="meta">${it.length} предм., всего ${cnt} шт.<br>Последнее изменение: ${last?fdt(new Date(last)):'—'}</div>
+ <div class="bar">${ks.map(k=>`<i style="width:${tot?by[k]/tot*100:0}%;background:${(CATS[k]||CATS.other)[2]}"></i>`).join('')}</div>
+ <div class="leg">${ks.map(k=>{const c=CATS[k]||CATS.other;return`<div data-fc="${k}"><u style="background:${c[2]}"></u>${c[0]}<b>${tot?Math.round(by[k]/tot*100):0}%</b></div>`}).join('')}</div></div>
+ ${soon.length?`<h2>Гарантия: требует внимания</h2>${soon.slice(0,5).map(card).join('')}`:''}
+ <h2>Недавние изменения</h2>${rec.map(card).join('')}`}
+
+function filt(){
+ const a=S.items.filter(i=>(fc==='all'||i.cat===fc)&&(fl==='all'||i.loc===fl)&&(!q||[i.name,i.loc,i.serial,i.note].join(' ').toLowerCase().includes(q.toLowerCase())));
+ const s={new:(x,y)=>y.ts-x.ts,name:(x,y)=>x.name.localeCompare(y.name,'ru'),price:(x,y)=>val(y)-val(x),date:(x,y)=>(y.date||'').localeCompare(x.date||'')};
+ return a.sort(s[sort])}
+function res(){const a=filt();if(!S.items.length)return emptyBox;
+ if(!a.length)return`<div class="empty"><p>Ничего не найдено. Измените запрос или фильтры.</p></div>`;
+ return`<div class="sum">Найдено: ${a.length} на ${money(a.reduce((s,i)=>s+val(i),0))}</div>`+a.map(card).join('')}
+const locs=()=>[...new Set(S.items.map(i=>i.loc).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru'));
+function list(){
+ return`<div class="tools"><input id="q" type="search" placeholder="Поиск по названию, месту, номеру" value="${esc(q)}">
+ <div class="chips"><button data-fc="all" class="${fc==='all'?'on':''}">Все</button>${Object.entries(CATS).map(([k,c])=>`<button data-fc="${k}" class="${fc===k?'on':''}">${c[1]} ${c[0]}</button>`).join('')}</div>
+ <div class="row2"><select id="sl" aria-label="Место"><option value="all">Все места</option>${locs().map(l=>`<option ${fl===l?'selected':''} value="${esc(l)}">${esc(l)}</option>`).join('')}</select>
+ <select id="ss" aria-label="Сортировка">${[['new','Сначала новые'],['name','По названию'],['price','По стоимости'],['date','По дате покупки']].map(o=>`<option value="${o[0]}" ${sort===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select></div></div><div id="res">${res()}</div>`}
+
+function data(){
+ const by={};S.items.forEach(i=>{const l=i.loc||'Место не указано';by[l]=(by[l]||0)+val(i)});
+ return`<div class="grp"><b>Валюта</b><div class="btns"><select id="cs" style="background:var(--s2);border:1px solid var(--ln);border-radius:12px;padding:10px">${['₽','$','€','₸','₴','£'].map(c=>`<option ${S.cur===c?'selected':''}>${c}</option>`).join('')}</select></div></div>
+ <div class="grp"><b>Резервная копия</b><p style="margin-top:4px">Данные живут только на этом устройстве. Сохраняйте копию после крупных изменений.</p>
+ <div class="btns"><button class="btn" data-act="exj">Экспорт JSON</button><button class="btn g" data-act="exc">Экспорт CSV</button><button class="btn g" data-act="imp">Импорт JSON</button><button class="btn g" data-act="txt">Данные текстом</button></div></div>
+ <div class="grp"><b>Стоимость по местам</b><div style="margin-top:6px">${Object.keys(by).length?Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([l,v])=>`<div class="loc"><span>${esc(l)}</span><b>${money(v)}</b></div>`).join(''):'<p>Пока нет данных.</p>'}</div></div>
+ <div class="grp"><b>Опасная зона</b><div class="btns"><button class="btn g" data-act="demo">Добавить пример</button><button class="btn r" data-act="wipe">Удалить всё</button></div></div>`}
+
+function render(){
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+ $('#fab').style.display=tab==='data'?'none':'';
+ $('#app').innerHTML=tab==='home'?home():tab==='list'?list():data();
+ $('#now').textContent=fdt(new Date())}
+
+function pv(){$('#pv').innerHTML=photo?`<img src="${photo}" alt=""><button type="button" class="btn g" data-act="rmph">Убрать фото</button>`:''}
+function openForm(id,copy){
+ const i=id?S.items.find(x=>x.id===id):{cat:fc!=='all'?fc:'tech',qty:1,cond:'Хорошее'};if(!i)return;
+ const dl_=$('#del');delete dl_.dataset.arm;dl_.textContent='Удалить';
+ cur=copy?null:id;photo=i.photo||'';const f=$('#f');
+ $('#ft').textContent=copy?'Копия предмета':id?'Предмет':'Новый предмет';
+ $('#catsel').innerHTML=Object.entries(CATS).map(([k,c])=>`<option value="${k}">${c[1]} ${c[0]}</option>`).join('');
+ $('#condsel').innerHTML=CONDS.map(c=>`<option>${c}</option>`).join('');
+ $('#locs').innerHTML=locs().map(l=>`<option value="${esc(l)}">`).join('');
+ ['name','cat','cond','loc','serial','price','qty','date','war','note'].forEach(k=>f.elements[k].value=i[k]??(k==='qty'?1:''));
+ $('#del').style.display=cur?'':'none';$('#dup').style.display=cur?'':'none';
+ pv();show('#dlg')}
+function show(id){const d=$(id);if(d.open)return;try{history.pushState({d:1},'')}catch(e){}d.showModal()}
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',()=>{try{if(history.state&&history.state.d)history.back()}catch(e){}}));
+addEventListener('popstate',()=>document.querySelectorAll('dialog[open]').forEach(d=>d.close()));
+$('#f').onsubmit=e=>{e.preventDefault();const v=Object.fromEntries(new FormData(e.target));
+ const o={name:v.name.trim(),cat:v.cat,cond:v.cond,loc:v.loc.trim(),serial:v.serial.trim(),price:Math.max(0,+v.price||0),qty:Math.max(1,parseInt(v.qty)||1),date:v.date,war:v.war,note:v.note.trim(),photo,ts:Date.now()};
+ if(!o.name){toast('Введите название');return}
+ if(cur)Object.assign(S.items.find(x=>x.id===cur),o);else S.items.push({id:uid(),...o});
+ if(save()){$('#dlg').close();render();toast('Сохранено')}};
+$('#ph').onchange=e=>{const fl=e.target.files[0];if(!fl)return;const r=new FileReader();
+ r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,480/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);photo=c.toDataURL('image/jpeg',.7);pv()};im.src=r.result};r.readAsDataURL(fl);e.target.value=''};
+
+function dl(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+function csv(){const h=['Название','Категория','Место','Цена','Кол-во','Сумма','Состояние','Дата покупки','Гарантия до','Серийный номер','Заметки'];
+ const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+ return'\ufeff'+[h.map(q).join(';'),...S.items.map(i=>[i.name,cat(i)[0],i.loc,i.price,i.qty,val(i),i.cond,fd(i.date),fd(i.war),i.serial,i.note].map(q).join(';'))].join('\n')}
+const okD=v=>/^\d{4}-\d{2}-\d{2}$/.test(v)?v:'';
+function doImport(txt){try{const d=JSON.parse(txt);if(!d||!Array.isArray(d.items))throw 0;
+ const ids=new Set(S.items.map(i=>i.id));let n=0;
+ d.items.forEach(i=>{if(!i||typeof i.name!=='string')return;let id=String(i.id||'').replace(/[^\w-]/g,'')||uid();if(ids.has(id))return;ids.add(id);
+  S.items.push({id,name:i.name.slice(0,80),cat:CATS[i.cat]?i.cat:'other',cond:CONDS.includes(i.cond)?i.cond:'Хорошее',loc:String(i.loc||'').slice(0,60),serial:String(i.serial||'').slice(0,60),price:Math.max(0,+i.price||0),qty:Math.max(1,parseInt(i.qty)||1),date:okD(i.date),war:okD(i.war),note:String(i.note||'').slice(0,500),photo:/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(i.photo||'')?i.photo:'',ts:+i.ts||Date.now()});n++});
+ if(['₽','$','€','₸','₴','£'].includes(d.cur)&&!S.items.length)S.cur=d.cur;
+ save();render();toast(n?`Импортировано: ${n}`:'Новых предметов нет: все уже есть в списке');return true}
+ catch(x){toast('Не подходит: нужен JSON, созданный этим приложением');return false}}
+$('#imp').onchange=e=>{const fl=e.target.files[0];if(!fl)return;const r=new FileReader();r.onload=()=>doImport(r.result);r.readAsText(fl);e.target.value=''};
+
+function demo(){const t=Date.now(),d=n=>{const x=new Date(Date.now()+n*864e5);return`${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`};
+ [['Ноутбук 14"','tech','Кабинет',150000,1,-300,d(430),'Отличное'],['Наушники с шумодавом','tech','Кабинет',28000,1,-340,d(25),'Хорошее'],['Эргономичное кресло','home','Кабинет',42000,1,-200,d(-10),'Хорошее'],['Набор инструментов','tool','Гараж',9500,1,-500,'','Б/у'],['Гантели разборные','sport','Балкон',12000,2,-120,'','Новое'],['Тонометр','health','Спальня',3500,1,-60,d(300),'Новое']]
+ .forEach((a,k)=>S.items.push({id:uid(),name:a[0],cat:a[1],loc:a[2],price:a[3],qty:a[4],date:d(a[5]),war:a[6],cond:a[7],serial:'',note:'',photo:'',ts:t-k*3600e3}));
+ save();render();toast('Пример добавлен')}
+
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-tab],[data-id],[data-fc],[data-act],#fab');if(!t)return;
+ if(t.id==='fab')return openForm();
+ if(t.dataset.tab){tab=t.dataset.tab;render();scrollTo(0,0);return}
+ if(t.dataset.fc){fc=t.dataset.fc;tab='list';render();scrollTo(0,0);return}
+ if(t.dataset.id)return openForm(t.dataset.id);
+ const a=t.dataset.act;
+ if(a==='new')openForm();
+ else if(a==='demo')demo();
+ else if(a==='close')t.closest('dialog').close();
+ else if(a==='pick')$('#ph').click();
+ else if(a==='rmph'){photo='';pv()}
+ else if(a==='dup')openForm(cur,true);
+ else if(a==='del')arm(t,()=>{S.items=S.items.filter(x=>x.id!==cur);save();$('#dlg').close();render();toast('Удалено')});
+ else if(a==='exj'){dl(`inventory_${stamp(new Date())}.json`,JSON.stringify(S,null,1),'application/json');toast('Копия сохранена')}
+ else if(a==='exc'){dl(`inventory_${stamp(new Date())}.csv`,csv(),'text/csv');toast('CSV сохранён')}
+ else if(a==='imp')$('#imp').click();
+ else if(a==='txt'){$('#tx').value=JSON.stringify(S);show('#tdlg')}
+ else if(a==='cp'){const x=$('#tx');x.select();let done=false;try{done=document.execCommand('copy')}catch(_){}
+  if(navigator.clipboard)navigator.clipboard.writeText(x.value).then(()=>toast('Скопировано'),()=>toast(done?'Скопировано':'Выделите текст и скопируйте вручную'));else toast(done?'Скопировано':'Выделите текст и скопируйте вручную')}
+ else if(a==='itx'){if(doImport($('#tx').value))$('#tdlg').close()}
+ else if(a==='wipe')arm(t,()=>{S.items=[];save();render();toast('Всё удалено')})});
+document.addEventListener('input',e=>{if(e.target.id==='q'){q=e.target.value;$('#res').innerHTML=res()}});
+document.addEventListener('change',e=>{const id=e.target.id;
+ if(id==='sl'){fl=e.target.value;$('#res').innerHTML=res()}
+ else if(id==='ss'){sort=e.target.value;$('#res').innerHTML=res()}
+ else if(id==='cs'){S.cur=e.target.value;save();toast('Валюта изменена')}});
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close()}));
+render();setInterval(()=>{$('#now').textContent=fdt(new Date())},30000);
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+</script>
+</body>
+</html>
